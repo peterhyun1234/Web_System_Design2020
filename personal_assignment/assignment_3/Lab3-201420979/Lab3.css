@@ -1,0 +1,92 @@
+#lab3Body{
+    max-width: 1024px;
+    text-align: center;
+    color: aliceblue;
+}
+#lab3Header{
+    font-size: x-large;
+    width: 100%;
+    height: 200px;
+    background-color: red;
+}
+#lab3Main{
+    width: 100%;
+    height: 120px;
+    background-color: orange;
+}
+#lab3Section{
+    float: left;
+    width: 50%;
+    height: 200px;
+}
+#lab3Aside{
+    float: left;
+    width: 50%;
+    height: 200px;
+}
+#lab3Footer{
+    clear: both;
+    width: 100%;
+    height: 120px;
+    background-color: gray;
+}
+
+.lab3SectionArticle1{
+    height: 50%;
+    width: 100%;
+    background-color: darkblue;
+}
+.lab3SectionArticle2{
+    height: 50%;
+    width: 100%;
+    background-color: pink;
+}
+.lab3AsideArticle1{
+    float: left;
+    height: 100%;
+    width: 50%;
+    background-color: brown;
+}
+.lab3AsideArticle2{
+    float: left;
+    height: 100%;
+    width: 50%;
+    background-color: black;
+}
+
+.lab3AsideArticle2:hover {
+    background-color: skyblue;
+    color: black;
+}
+
+@media (max-width: 768px) {
+    #lab3Header{
+        width: 100%;
+        height: 160px;
+        font-style: italic;
+    }
+    #lab3Main{
+        width: 100%;
+        height: 80px;
+    }
+    #lab3Section{
+        width: 100%;
+        height: 160px;
+    }
+    #lab3Aside{
+        width: 100%;
+        height: 160px;
+    }
+    #lab3Footer{
+        width: 100%;
+        height: 80px;
+    }
+    .lab3AsideArticle1{
+        height: 50%;
+        width: 100%;
+    }
+    .lab3AsideArticle2{
+        height: 50%;
+        width: 100%;
+    }
+}
