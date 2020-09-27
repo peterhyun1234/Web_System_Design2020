@@ -18,9 +18,11 @@
 }
 
 #lab3Section {
+    background-color: greenyellow;
     float: left;
     width: 50%;
     height: 200px;
+    overflow: scroll;
 }
 
 #lab3Aside {
@@ -48,54 +50,42 @@
     background-color: pink;
 }
 
-.lab3AsideArticle1 {
+.lab3AsideArticle {
     float: left;
     height: 100%;
-    width: 50%;
+    width: 100%;
     background-color: brown;
 }
 
-.lab3AsideArticle2 {
-    float: left;
-    height: 100%;
-    width: 50%;
-    background-color: black;
-}
-
-.lab3AsideArticle2:hover {
+.lab3AsideArticle:hover {
     background-color: skyblue;
     color: black;
 }
 
-
-/* @media (max-width: 768px) {
-    #lab3Header{
+@media (max-width: 768px) {
+    #lab3Header {
         width: 100%;
         height: 160px;
         font-style: italic;
     }
-    #lab3Main{
+    #lab3Main {
         width: 100%;
         height: 80px;
     }
-    #lab3Section{
+    #lab3Section {
         width: 100%;
         height: 160px;
     }
-    #lab3Aside{
+    #lab3Aside {
         width: 100%;
         height: 160px;
     }
-    #lab3Footer{
+    #lab3Footer {
         width: 100%;
         height: 80px;
     }
-    .lab3AsideArticle1{
+    .lab3AsideArticle1 {
         height: 50%;
         width: 100%;
     }
-    .lab3AsideArticle2{
-        height: 50%;
-        width: 100%;
-    }
-} */
+}
