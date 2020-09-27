@@ -1,53 +1,61 @@
-#lab3Body{
+#lab3Body {
     max-width: 1024px;
     text-align: center;
     color: aliceblue;
 }
-#lab3Header{
+
+#lab3Header {
     font-size: x-large;
     width: 100%;
     height: 200px;
     background-color: red;
 }
-#lab3Main{
+
+#lab3Main {
     width: 100%;
     height: 120px;
     background-color: orange;
 }
-#lab3Section{
+
+#lab3Section {
     float: left;
     width: 50%;
     height: 200px;
 }
-#lab3Aside{
+
+#lab3Aside {
     float: left;
     width: 50%;
     height: 200px;
 }
-#lab3Footer{
+
+#lab3Footer {
     clear: both;
     width: 100%;
     height: 120px;
     background-color: gray;
 }
 
-.lab3SectionArticle1{
+.lab3SectionArticle1 {
     height: 50%;
     width: 100%;
     background-color: darkblue;
 }
-.lab3SectionArticle2{
+
+.lab3SectionArticle2 {
     height: 50%;
     width: 100%;
     background-color: pink;
 }
-.lab3AsideArticle1{
+
+.lab3AsideArticle1 {
     float: left;
     height: 100%;
     width: 50%;
     background-color: brown;
 }
-.lab3AsideArticle2{
+
+.lab3AsideArticle2 {
     float: left;
     height: 100%;
     width: 50%;
@@ -59,7 +67,8 @@
     color: black;
 }
 
-@media (max-width: 768px) {
+
+/* @media (max-width: 768px) {
     #lab3Header{
         width: 100%;
         height: 160px;
@@ -89,4 +98,4 @@
         height: 50%;
         width: 100%;
     }
-}
+} */
