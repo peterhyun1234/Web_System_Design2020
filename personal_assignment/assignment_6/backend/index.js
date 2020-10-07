@@ -3,7 +3,7 @@ var fs = require("fs");
 var url = require("url");
 var path = require("path");
 var qs = require("querystring");
-var cur_path = path.resolve('../fs');
+var cur_path = path.resolve('fs');
 
 var file_name = "";
 var file_content = "";
@@ -14,16 +14,18 @@ var app = http.createServer(function(request, response) {
     var pathname = url.parse(_url, true).pathname;
 
     if (pathname === '/') {
-        fs.readFile("../frontend/template.html", function(err, tmpl) {
+        fs.readFile("frontend/template.html", function(err, tmpl) {
             fs.readdir(cur_path, function(err, data) {
                 lsinfo = "";
+
                 data.forEach(function(element) {
                     lsinfo += "<li onclick='readfile(this);'>" + element + "</li>";
                 });
+
                 let html = tmpl.toString().replace('%', lsinfo);
                 html = html.replace('?', file_name);
                 html = html.replace('$', file_content);
-                response.writeHead(200, { 'Content-type': 'text/html' });
+                response.writeHead(200, { 'Content-Type': 'text/html' });
                 response.end(html);
             });
         });
