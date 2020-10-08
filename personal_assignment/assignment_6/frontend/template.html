@@ -2,39 +2,181 @@
 <html>
 
 <head>
-    <title>Node.js</title>
+    <title>201420979_assignment_6</title>
     <meta charset="utf-8">
-
+    <style>
+        table {
+            width: 100%;
+            height: 100%;
+        }
+        
+        thead th {
+            background: #0c3390;
+            color: #fff;
+            font-weight: initial;
+        }
+        
+        tr {
+            background: #f1f1f1;
+        }
+        
+        th,
+        td {
+            text-align: left;
+            padding: 24px;
+        }
+        /* The Modal (background) */
+        
+        .modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
+        }
+        /* Modal Content/Box */
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            /* Could be more or less, depending on screen size */
+        }
+        /* The Close Button */
+        
+        .fileClose {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .fileClose:hover,
+        .fileClose:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .dirClose {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .dirClose:hover,
+        .dirClose:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .renameClose {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .renameClose:hover,
+        .renameClose:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
+
+
 <body>
-    <h1><a href="/">Node.js</a></h1>
-    <ul>
-        %
-    </ul>
-    <p>Create file</p>
-    <!-- 디렉토리 생성 form -->
-    <form action="http://localhost:3000/writefile" method="POST">
-        <input name="title" type="text">
-        <textarea name="description" type="text"></textarea>
-        <input type="submit" value="create file">
-    </form>
+    <button id="mkdir">폴더 생성</button>
+    <button id="mkfile">파일 생성</button>
 
-    <!-- 파일 편집 form -->
-    <form action="http://localhost:3000/writefile" method="POST">
-        <input name="title" type="text">
-        <textarea name="description" type="text"></textarea>
-        <input type="submit" value="create file">
-    </form>
 
-    <!-- 이름 바꾸기 form -->
-    <form action="http://localhost:3000/writefile" method="POST">
+    <div id="myDirModal" class="modal">
+        <div class="modal-content">
+            <span class="dirClose">&times;</span>
+            <p>폴더 생성</p>
+            <form action="http://localhost:3000/mkdir" method="POST">
+                <input name="title" type="text">
+                <br>
+                <input type="submit" value="폴더 생성하기">
+            </form>
+        </div>
+    </div>
+
+    <div id="myFileModal" class="modal">
+        <div class="modal-content">
+            <span class="fileClose">&times;</span>
+            <p>파일 편집</p>
+            <form action="http://localhost:3000/editfile" method="POST">
+                <input name="title" type="text">
+                <br>
+                <textarea name="description" type="text"></textarea>
+                <br>
+                <input type="submit" value="편집 저장하기">
+            </form>
+        </div>
+    </div>
+
+    <div id="renameModal" class="modal">
+        <div class="modal-content">
+            <span class="renameClose">&times;</span>
+            <p>파일 이름 변경</p>
+            <form action="http://localhost:3000/rename" method="POST">
+                <input name="title" type="text">
+                <br>
+                <input type="submit" value="이름 저장하기">
+            </form>
+        </div>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th></th>
+                <th></th>
+                <th>File size</th>
+                <th>Modification Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>폴더1</td>
+                <td><button id="delete">delete</button></td>
+                <td><button id="rename">rename</button></td>
+                <td>-</td>
+                <td>2020-10-08</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- form 예시 -->
+    <!-- <form action="http://localhost:3000/writefile" method="POST">
         <input name="title" type="text">
         <textarea name="description" type="text"></textarea>
         <input type="submit" value="create file">
-    </form>
-    <h2>?</h2>
-    <p>$</p>
+    </form> -->
+
     <script type="text/javascript">
         function readfile(link) {
             const form = document.createElement('form');
@@ -47,6 +189,55 @@
             form.appendChild(hiddenField);
             document.body.appendChild(form);
             form.submit();
+        }
+
+        // Get the modal
+        var fileModal = document.getElementById("myFileModal");
+        var dirModal = document.getElementById("myDirModal");
+        var renameModal = document.getElementById("renameModal");
+
+        var fileBtn = document.getElementById("mkfile");
+        var dirBtn = document.getElementById("mkdir");
+        var renameBtn = document.getElementById("rename");
+
+        // Get the <span> element that fileCloses the modal
+        var fileSpan = document.getElementsByClassName("fileClose")[0];
+        var dirSpan = document.getElementsByClassName("dirClose")[0];
+        var renameSpan = document.getElementsByClassName("renameClose")[0];
+
+        // When the user clicks on the button, open the modal
+        fileBtn.onclick = function() {
+            fileModal.style.display = "block";
+        }
+
+        dirBtn.onclick = function() {
+            dirModal.style.display = "block";
+        }
+
+        renameBtn.onclick = function() {
+            renameModal.style.display = "block";
+        }
+
+        // When the user clicks on <span> (x), fileClose the modal
+        fileSpan.onclick = function() {
+            fileModal.style.display = "none";
+        }
+        dirSpan.onclick = function() {
+            dirModal.style.display = "none";
+        }
+        renameSpan.onclick = function() {
+            renameModal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, fileClose it
+        window.onclick = function(event) {
+            if (event.target == fileModal) {
+                fileModal.style.display = "none";
+            } else if (event.target == dirModal) {
+                dirModal.style.display = "none";
+            } else if (event.target == renameModal) {
+                renameModal.style.display = "none";
+            }
         }
     </script>
 </body>
