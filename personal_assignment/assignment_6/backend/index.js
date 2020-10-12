@@ -17,14 +17,24 @@ var app = http.createServer(function(request, response) {
         fs.readFile("frontend/template.html", function(err, tmpl) {
             fs.readdir(cur_path, function(err, data) {
                 lsinfo = "";
+                console.log(cur_path);
 
                 data.forEach(function(element) {
+
+                    fs.stat(cur_path + "/" + element, function(error, stats) {
+                        console.log(stats.isFile());
+                        console.log(stats.size);
+                        console.log(stats.mtime);
+                    });
+
                     lsinfo += "<li onclick='readfile(this);'>" + element + "</li>";
                 });
+                //console.log(tmpl.toString());
 
                 let html = tmpl.toString().replace('%', lsinfo);
-                html = html.replace('?', file_name);
-                html = html.replace('$', file_content);
+                //console.log(html);
+                // html = html.replace('?', file_name);
+                // html = html.replace('$', file_content);
                 response.writeHead(200, { 'Content-Type': 'text/html' });
                 response.end(html);
             });
