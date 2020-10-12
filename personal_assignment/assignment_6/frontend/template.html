@@ -178,7 +178,8 @@
     </form> -->
 
     <script type="text/javascript">
-        function readfile(link) {
+        // 디렉토리 이동 요청
+        function cd() {
             const form = document.createElement('form');
             form.method = "post";
             form.action = "http://localhost:3000/readfile";
@@ -190,6 +191,50 @@
             document.body.appendChild(form);
             form.submit();
         }
+
+        // 디렉토리 삭제
+        function rmDirectory(link) {
+            const form = document.createElement('form');
+            form.method = "post";
+            form.action = "http://localhost:3000/readfile";
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = 'file_name';
+            hiddenField.value = link.textContent;
+            form.appendChild(hiddenField);
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        // 파일 삭제
+        function rmFile(link) {
+            const form = document.createElement('form');
+            form.method = "post";
+            form.action = "http://localhost:3000/readfile";
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = 'file_name';
+            hiddenField.value = link.textContent;
+            form.appendChild(hiddenField);
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        // 이름 변경 요청
+        function renameTo(link) {
+            const form = document.createElement('form');
+            form.method = "post";
+            form.action = "http://localhost:3000/readfile";
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = 'file_name';
+            hiddenField.value = link.textContent;
+            form.appendChild(hiddenField);
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+
 
         // Get the modal
         var fileModal = document.getElementById("myFileModal");
