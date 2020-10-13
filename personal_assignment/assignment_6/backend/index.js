@@ -8,6 +8,15 @@ var cur_path = path.resolve('fs');
 var file_name = "";
 var file_content = "";
 
+function changeDateFormat(date) {
+    var year = date.getFullYear();
+    var month = (1 + date.getMonth());
+    month = month >= 10 ? month : '0' + month;
+    var day = date.getDate();
+    day = day >= 10 ? day : '0' + day;
+    return year + '-' + month + '-' + day;
+}
+
 var app = http.createServer(function(request, response) {
     var _url = request.url;
     var queryData = url.parse(_url, true).query;
@@ -16,23 +25,42 @@ var app = http.createServer(function(request, response) {
     if (pathname === '/') {
         fs.readFile("frontend/template.html", function(err, tmpl) {
             fs.readdir(cur_path, function(err, data) {
-                lsinfo = "";
-                console.log(cur_path);
+                let lsinfo = "";
+                //console.log(cur_path);
 
                 data.forEach(function(element) {
 
-                    fs.stat(cur_path + "/" + element, function(error, stats) {
-                        console.log(stats.isFile());
-                        console.log(stats.size);
-                        console.log(stats.mtime);
-                    });
+                    let curStats = fs.statSync(cur_path + "/" + element);
 
-                    lsinfo += "<li onclick='readfile(this);'>" + element + "</li>";
+                    let curIsFile = curStats.isFile();
+                    let curSize = curStats.size;
+                    let curMtime = curStats.mtime;
+                    curMtime = changeDateFormat(curMtime);
+                    if (curIsFile) {
+                        lsinfo +=
+                            "<tr style=\"background: #9a8cff;\">" +
+                            "<td>" + element + "</td>" +
+                            "<td><button id=\"delete\">delete</button></td>" +
+                            "<td><button id=\"rename\">rename</button></td>" +
+                            "<td>" + curSize + "</td>" +
+                            "<td>" + curMtime + "</td>" +
+                            "</tr>";
+                    } else {
+                        lsinfo +=
+                            "<tr>" +
+                            "<td>" + element + "</td>" +
+                            "<td><button id=\"delete\">delete</button></td>" +
+                            "<td><button id=\"rename\">rename</button></td>" +
+                            "<td>-</td>" +
+                            "<td>" + curMtime + "</td>" +
+                            "</tr>";
+                    }
+
                 });
-                //console.log(tmpl.toString());
 
-                let html = tmpl.toString().replace('%', lsinfo);
-                //console.log(html);
+                // console.log(lsinfo);
+
+                let html = tmpl.toString().replace('@', lsinfo);
                 // html = html.replace('?', file_name);
                 // html = html.replace('$', file_content);
                 response.writeHead(200, { 'Content-Type': 'text/html' });
@@ -71,6 +99,24 @@ var app = http.createServer(function(request, response) {
             fs.writeFile(file_path, description, function(err, data) {
                 response.writeHead(302, { Location: `http://localhost:3000/` });
                 response.end('success');
+            });
+        });
+    } else if (pathname === '/mkdir') {
+        var body = '';
+        request.on('data', function(data) {
+            body = body + data;
+        });
+        request.on('end', function() {
+            var post = qs.parse(body);
+            var dirName = post.title;
+
+            fs.mkdir(cur_path + "/" + dirName, function(err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    response.writeHead(302, { Location: `http://localhost:3000/` });
+                    response.end('success');
+                }
             });
         });
     }
