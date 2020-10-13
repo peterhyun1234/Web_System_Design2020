@@ -186,15 +186,25 @@
     </form> -->
 
     <script type="text/javascript">
-        // 디렉토리 이동 요청
-        function cd() {
+        function upTo(dirName) {
+            // console.log("dir: " + dirName);
             const form = document.createElement('form');
             form.method = "post";
-            form.action = "http://localhost:3000/readfile";
+            form.action = "http://localhost:3000/upto";
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        // 디렉토리 이동 요청
+        function cd(dirName) {
+            // console.log("dir: " + dirName);
+            const form = document.createElement('form');
+            form.method = "post";
+            form.action = "http://localhost:3000/cd";
             const hiddenField = document.createElement('input');
             hiddenField.type = 'hidden';
-            hiddenField.name = 'file_name';
-            hiddenField.value = link.textContent;
+            hiddenField.name = "destDirName";
+            hiddenField.value = dirName;
             form.appendChild(hiddenField);
             document.body.appendChild(form);
             form.submit();
@@ -251,7 +261,10 @@
 
         var fileBtn = document.getElementById("mkfile");
         var dirBtn = document.getElementById("mkdir");
-        var renameBtn = document.getElementById("rename");
+        var upToBtn = document.getElementById("upToBtn");
+
+        var renameBtn = document.getElementsByClassName("rename")[0];
+        var cdToBtn = document.getElementsByClassName("cdTo")[0];
 
         // Get the <span> element that fileCloses the modal
         var fileSpan = document.getElementsByClassName("fileClose")[0];
@@ -268,7 +281,17 @@
         }
 
         renameBtn.onclick = function() {
+            console.log("Clicked");
             renameModal.style.display = "block";
+        }
+
+        cdToBtn.onclick = function(data) {
+            let destDir = data.target.innerText;
+            cd(destDir);
+        }
+
+        upToBtn.onclick = function(data) {
+            upTo();
         }
 
         // When the user clicks on <span> (x), fileClose the modal

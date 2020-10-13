@@ -41,16 +41,16 @@ var app = http.createServer(function(request, response) {
                             "<tr style=\"background: #9a8cff;\">" +
                             "<td>" + element + "</td>" +
                             "<td><button id=\"delete\">delete</button></td>" +
-                            "<td><button id=\"rename\">rename</button></td>" +
+                            "<td><button class=\"rename\">rename</button></td>" +
                             "<td>" + curSize + "</td>" +
                             "<td>" + curMtime + "</td>" +
                             "</tr>";
                     } else {
                         lsinfo +=
                             "<tr>" +
-                            "<td>" + element + "</td>" +
-                            "<td><button id=\"delete\">delete</button></td>" +
-                            "<td><button id=\"rename\">rename</button></td>" +
+                            "<td><button class=\"cdTo\">" + element + "</button></td>" +
+                            "<td><button class=\"delete\">delete</button></td>" +
+                            "<td><button class=\"rename\">rename</button></td>" +
                             "<td>-</td>" +
                             "<td>" + curMtime + "</td>" +
                             "</tr>";
@@ -118,6 +118,40 @@ var app = http.createServer(function(request, response) {
                     response.end('success');
                 }
             });
+        });
+    } else if (pathname === '/upto') {
+        var body = '';
+        request.on('data', function(data) {
+            body = body + data;
+        });
+        request.on('end', function() {
+            var post = qs.parse(body);
+            // cur_path = cur_path + "/" + destDir;
+            let pathArray = cur_path.split("\\");
+            temp_cur_path = "";
+            for (let i = 0; i < pathArray.length - 2; i++) {
+                temp_cur_path += pathArray[i] + "\\";
+            }
+            temp_cur_path += pathArray[pathArray.length - 1];
+
+            console.log(cur_path);
+            console.log(temp_cur_path);
+            cur_path = temp_cur_path;
+            response.writeHead(302, { Location: `http://localhost:3000/` });
+            response.end('success');
+        });
+    } else if (pathname === '/cd') {
+        var body = '';
+        request.on('data', function(data) {
+            body = body + data;
+        });
+        request.on('end', function() {
+            var post = qs.parse(body);
+            var destDir = post.destDirName;
+            cur_path = cur_path + "\\" + destDir;
+            console.log(cur_path);
+            response.writeHead(302, { Location: `http://localhost:3000/` });
+            response.end('success');
         });
     }
 });
