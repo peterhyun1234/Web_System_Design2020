@@ -186,8 +186,8 @@
     </form> -->
 
     <script type="text/javascript">
-        function upTo(dirName) {
-            // console.log("dir: " + dirName);
+        function upTo() {
+            console.log("upTo CALLED");
             const form = document.createElement('form');
             form.method = "post";
             form.action = "http://localhost:3000/upto";
@@ -263,8 +263,25 @@
         var dirBtn = document.getElementById("mkdir");
         var upToBtn = document.getElementById("upToBtn");
 
-        var renameBtn = document.getElementsByClassName("rename")[0];
-        var cdToBtn = document.getElementsByClassName("cdTo")[0];
+        var renameBtn = document.getElementsByClassName("rename");
+
+        for (var i = 0; i < renameBtn.length; i++) {
+            renameBtn[i].addEventListener('click', function(event) {
+                console.log(event.target.innerText);
+                renameModal.style.display = "block";
+            });
+        }
+
+        var cdToBtn = document.getElementsByClassName("cdTo");
+
+        for (var i = 0; i < cdToBtn.length; i++) {
+            cdToBtn[i].addEventListener('click', function(event) {
+                //console.log(event.target.innerText);
+                let destDir = event.target.innerText;
+                cd(destDir);
+            });
+        }
+
 
         // Get the <span> element that fileCloses the modal
         var fileSpan = document.getElementsByClassName("fileClose")[0];
@@ -278,16 +295,6 @@
 
         dirBtn.onclick = function() {
             dirModal.style.display = "block";
-        }
-
-        renameBtn.onclick = function() {
-            console.log("Clicked");
-            renameModal.style.display = "block";
-        }
-
-        cdToBtn.onclick = function(data) {
-            let destDir = data.target.innerText;
-            cd(destDir);
         }
 
         upToBtn.onclick = function(data) {
