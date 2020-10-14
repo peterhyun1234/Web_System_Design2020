@@ -48,7 +48,7 @@ var app = http.createServer(function(request, response) {
                     } else {
                         lsinfo +=
                             "<tr>" +
-                            "<td><button class=\"cdTo\">" + element + "</button></td>" +
+                            "<td><button class=\"cdTo\">" + "/" + element + "</button></td>" +
                             "<td><button class=\"delete\">delete</button></td>" +
                             "<td><button class=\"rename\">rename</button></td>" +
                             "<td>-</td>" +
@@ -132,10 +132,10 @@ var app = http.createServer(function(request, response) {
             for (let i = 0; i < pathArray.length - 2; i++) {
                 temp_cur_path += pathArray[i] + "\\";
             }
-            temp_cur_path += pathArray[pathArray.length - 1];
+            temp_cur_path += pathArray[pathArray.length - 2];
 
-            console.log(cur_path);
-            console.log(temp_cur_path);
+            //console.log(pathArray);
+            //console.log(temp_cur_path);
             cur_path = temp_cur_path;
             response.writeHead(302, { Location: `http://localhost:3000/` });
             response.end('success');
@@ -147,8 +147,9 @@ var app = http.createServer(function(request, response) {
         });
         request.on('end', function() {
             var post = qs.parse(body);
-            var destDir = post.destDirName;
-            cur_path = cur_path + "\\" + destDir;
+            let destDir = post.destDirName.split("/");
+            console.log(destDir[1]);
+            cur_path = cur_path + "\\" + destDir[1];
             console.log(cur_path);
             response.writeHead(302, { Location: `http://localhost:3000/` });
             response.end('success');
