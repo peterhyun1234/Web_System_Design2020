@@ -118,6 +118,7 @@
             <form action="http://localhost:3000/mkdir" method="POST">
                 <input name="title" type="text">
                 <br>
+                <br>
                 <input type="submit" value="폴더 생성하기">
             </form>
         </div>
@@ -130,7 +131,9 @@
             <form action="http://localhost:3000/editfile" method="POST">
                 <input name="title" type="text">
                 <br>
-                <textarea name="description" type="text"></textarea>
+                <br>
+                <textarea cols="30" rows="10" name="description" type="text"></textarea>
+                <br>
                 <br>
                 <input type="submit" value="편집 저장하기">
             </form>
@@ -143,6 +146,7 @@
             <p>파일 이름 변경</p>
             <form action="http://localhost:3000/rename" method="POST">
                 <input name="title" type="text">
+                <br>
                 <br>
                 <input type="submit" value="이름 저장하기">
             </form>
@@ -208,6 +212,22 @@
             form.appendChild(hiddenField);
             document.body.appendChild(form);
             form.submit();
+        }
+
+        // 파일 읽기 함수
+        // HTTP Post를 통해 웹서버에 파일 읽기를 요청한다. 
+        // 읽고자 하는 파일 이름 정보를 전달한다.
+        function readFile(fileName) {
+            // const form = document.createElement('form');
+            // form.method = "post";
+            // form.action = "http://localhost:3000/readfile";
+            // const hiddenField = document.createElement('input');
+            // hiddenField.type = 'hidden';
+            // hiddenField.name = 'file_name';
+            // hiddenField.value = link.textContent;
+            // form.appendChild(hiddenField);
+            // document.body.appendChild(form);
+            // form.submit();
         }
 
         // 디렉토리 삭제
@@ -281,6 +301,24 @@
                 cd(destDir);
             });
         }
+
+        var deleteBtn = document.getElementsByClassName("delete");
+
+        for (var i = 0; i < deleteBtn.length; i++) {
+            deleteBtn[i].addEventListener('click', function(event) {
+                //console.log(event.target.parentNode.parentNode.firstChild.innerText);
+                let curOperand = event.target.parentNode.parentNode.firstChild.innerText;
+
+                if (curOperand[0] == '/') { // rm directory 
+                    console.log("dir");
+                } else { // rm file
+                    console.log("file");
+                }
+                //cd(destDir);
+            });
+        }
+
+
 
 
         // Get the <span> element that fileCloses the modal

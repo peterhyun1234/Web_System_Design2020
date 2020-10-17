@@ -40,7 +40,7 @@ var app = http.createServer(function(request, response) {
                         lsinfo +=
                             "<tr style=\"background: #9a8cff;\">" +
                             "<td>" + element + "</td>" +
-                            "<td><button id=\"delete\">delete</button></td>" +
+                            "<td><button class=\"delete\">delete</button></td>" +
                             "<td><button class=\"rename\">rename</button></td>" +
                             "<td>" + curSize + "</td>" +
                             "<td>" + curMtime + "</td>" +
@@ -67,6 +67,46 @@ var app = http.createServer(function(request, response) {
                 response.end(html);
             });
         });
+    } else if (pathname === '/editfile') {
+        // 내 파일의 이름와 파일의 내용을 읽기 
+        // 새로운 파일을 읽거나 기존 파일을 수정한다.
+        var body = '';
+        request.on('data', function(data) {
+            body = body + data;
+        });
+        request.on('end', function() {
+            var post = qs.parse(body);
+            let title = post.title;
+            let writingDescription = post.description;
+
+            let file_path = path.join(cur_path, title);
+
+            fs.writeFile(file_path, writingDescription, function(err, data) {
+                // file_content = data;
+                response.writeHead(302, { Location: `http://localhost:3000/` });
+                response.end('success');
+            });
+        });
+    } else if (pathname === '/rmfile') {
+        // 내 파일의 이름와 파일의 내용을 읽기 
+        // 새로운 파일을 읽거나 기존 파일을 수정한다.
+        var body = '';
+        request.on('data', function(data) {
+            body = body + data;
+        });
+        request.on('end', function() {
+            var post = qs.parse(body);
+            let title = post.title;
+            let writingDescription = post.description;
+
+            let file_path = path.join(cur_path, title);
+
+            fs.writeFile(file_path, writingDescription, function(err, data) {
+                // file_content = data;
+                response.writeHead(302, { Location: `http://localhost:3000/` });
+                response.end('success');
+            });
+        });
     } else if (pathname === '/readfile') {
         var body = '';
         request.on('data', function(data) {
@@ -75,28 +115,12 @@ var app = http.createServer(function(request, response) {
         request.on('end', function() {
             var post = qs.parse(body);
             file_name = post.file_name;
-            console.log(file_name);
+            //console.log(file_name);
             var file_path = path.join(cur_path, file_name);
 
             fs.readFile(file_path, 'utf8', function(err, data) {
-                console.log(file_path);
+                //console.log(file_path);
                 file_content = data;
-                response.writeHead(302, { Location: `http://localhost:3000/` });
-                response.end('success');
-            });
-        });
-    } else if (pathname === '/writefile') {
-        var body = '';
-        request.on('data', function(data) {
-            body = body + data;
-        });
-        request.on('end', function() {
-            var post = qs.parse(body);
-            var title = post.title;
-            var description = post.description;
-            var file_path = path.join(cur_path, title);
-
-            fs.writeFile(file_path, description, function(err, data) {
                 response.writeHead(302, { Location: `http://localhost:3000/` });
                 response.end('success');
             });
