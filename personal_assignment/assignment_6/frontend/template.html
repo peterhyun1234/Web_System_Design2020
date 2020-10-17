@@ -231,14 +231,14 @@
         }
 
         // 디렉토리 삭제
-        function rmDirectory(link) {
+        function rmDirectory(removingDirName) {
             const form = document.createElement('form');
             form.method = "post";
-            form.action = "http://localhost:3000/readfile";
+            form.action = "http://localhost:3000/rmdir";
             const hiddenField = document.createElement('input');
             hiddenField.type = 'hidden';
-            hiddenField.name = 'file_name';
-            hiddenField.value = link.textContent;
+            hiddenField.name = 'dir_name';
+            hiddenField.value = removingDirName;
             form.appendChild(hiddenField);
             document.body.appendChild(form);
             form.submit();
@@ -311,7 +311,7 @@
 
                 if (curOperand[0] == '/') { // rm directory 
                     let curDirName = curOperand;
-                    //rmDirectory(curDirName);
+                    rmDirectory(curDirName);
                 } else { // rm file
                     let curFileName = curOperand;
                     rmFile(curFileName);

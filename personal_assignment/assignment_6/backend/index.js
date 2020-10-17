@@ -108,6 +108,24 @@ var app = http.createServer(function(request, response) {
             });
 
         });
+    } else if (pathname === '/rmdir') {
+        var body = '';
+        request.on('data', function(data) {
+            body = body + data;
+        });
+        request.on('end', function() {
+            var post = qs.parse(body);
+            let removingDirName = post.dir_name;
+
+            let dir_path = path.join(cur_path, removingDirName);
+
+            fs.rmdir(dir_path, function(err, data) {
+
+                response.writeHead(302, { Location: `http://localhost:3000/` });
+                response.end('success');
+            });
+
+        });
     } else if (pathname === '/readfile') {
         var body = '';
         request.on('data', function(data) {
