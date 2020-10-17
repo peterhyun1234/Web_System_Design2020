@@ -166,7 +166,7 @@
             <span class="renameClose">&times;</span>
             <h1>이름 변경</h1>
             <form action="http://localhost:3000/rename" method="POST">
-                이름: <input size="20" name="title" type="text">
+                이름: <input id="fileNameInRename" size="20" name="title" type="text">
                 <br>
                 <br>
                 <!-- 기존 파일 및 dir 이름을 저장하기 위한 히든 타입 -->
@@ -188,7 +188,6 @@
                 <br>
                 <textarea readonly cols="30" rows="10" name="file_content" type="text"></textarea>
                 <br>
-                <!-- <input type="hidden" name="file_name" value="dddddd"> -->
             </form>
         </div>
     </div>
@@ -231,8 +230,12 @@
     </form> -->
 
     <script type="text/javascript">
+        let curFileName = "";
+        let curFileContent = "";
+
+
         function upTo() {
-            console.log("upTo CALLED");
+            //console.log("upTo CALLED");
             const form = document.createElement('form');
             form.method = "post";
             form.action = "http://localhost:3000/upto";
@@ -321,6 +324,12 @@
         var renameModal = document.getElementById("renameModal");
         var fileReadingModal = document.getElementById("fileReadingModal");
 
+        var fileNameInRename = document.getElementById("fileNameInRename");
+
+        // 여기부터
+        var fileNameInReadFile = document.getElementById("fileNameInReadFile");
+        var fileContentInReadFile = document.getElementById("fileContentInReadFile");
+
         var fileBtn = document.getElementById("mkfile");
         var dirBtn = document.getElementById("mkdir");
         var upToBtn = document.getElementById("upToBtn");
@@ -329,7 +338,12 @@
 
         for (var i = 0; i < renameBtn.length; i++) {
             renameBtn[i].addEventListener('click', function(event) {
-                console.log(event.target.innerText);
+                //console.log(event.target.parentNode.parentNode.firstChild.innerText);
+                curFileName = event.target.parentNode.parentNode.firstChild.innerText;
+
+                // rename 모달의 value 변경
+                fileNameInRename.value = curFileName;
+
                 renameModal.style.display = "block";
             });
         }
