@@ -68,7 +68,7 @@ var app = http.createServer(function(request, response) {
             });
         });
     } else if (pathname === '/editfile') {
-        // 내 파일의 이름와 파일의 내용을 읽기 
+        // 내 파일의 이름와 파일의 내용을 읽기
         // 새로운 파일을 읽거나 기존 파일을 수정한다.
         var body = '';
         request.on('data', function(data) {
@@ -88,7 +88,7 @@ var app = http.createServer(function(request, response) {
             });
         });
     } else if (pathname === '/rmfile') {
-        // 내 파일의 이름와 파일의 내용을 읽기 
+        // 내 파일의 이름와 파일의 내용을 읽기
         // 새로운 파일을 읽거나 기존 파일을 수정한다.
         var body = '';
         request.on('data', function(data) {
@@ -96,16 +96,17 @@ var app = http.createServer(function(request, response) {
         });
         request.on('end', function() {
             var post = qs.parse(body);
-            let title = post.title;
-            let writingDescription = post.description;
+            // console.log(post.file_name);
+            let removingFileName = post.file_name;
 
-            let file_path = path.join(cur_path, title);
+            let file_path = path.join(cur_path, removingFileName);
 
-            fs.writeFile(file_path, writingDescription, function(err, data) {
-                // file_content = data;
+            fs.unlink(file_path, function(err, data) {
+
                 response.writeHead(302, { Location: `http://localhost:3000/` });
                 response.end('success');
             });
+
         });
     } else if (pathname === '/readfile') {
         var body = '';

@@ -245,14 +245,14 @@
         }
 
         // 파일 삭제
-        function rmFile(link) {
+        function rmFile(removingFileName) {
             const form = document.createElement('form');
             form.method = "post";
-            form.action = "http://localhost:3000/readfile";
+            form.action = "http://localhost:3000/rmfile";
             const hiddenField = document.createElement('input');
             hiddenField.type = 'hidden';
             hiddenField.name = 'file_name';
-            hiddenField.value = link.textContent;
+            hiddenField.value = removingFileName;
             form.appendChild(hiddenField);
             document.body.appendChild(form);
             form.submit();
@@ -310,11 +310,12 @@
                 let curOperand = event.target.parentNode.parentNode.firstChild.innerText;
 
                 if (curOperand[0] == '/') { // rm directory 
-                    console.log("dir");
+                    let curDirName = curOperand;
+                    //rmDirectory(curDirName);
                 } else { // rm file
-                    console.log("file");
+                    let curFileName = curOperand;
+                    rmFile(curFileName);
                 }
-                //cd(destDir);
             });
         }
 
