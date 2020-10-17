@@ -39,10 +39,10 @@ var app = http.createServer(function(request, response) {
                     if (curIsFile) {
                         lsinfo +=
                             "<tr style=\"background: #9a8cff;\">" +
-                            "<td>" + element + "</td>" +
+                            "<td><button class=\"readFile\">" + element + "</button></td>" +
                             "<td><button class=\"delete\">delete</button></td>" +
                             "<td><button class=\"rename\">rename</button></td>" +
-                            "<td>" + curSize + "</td>" +
+                            "<td>" + curSize + " B</td>" +
                             "<td>" + curMtime + "</td>" +
                             "</tr>";
                     } else {
@@ -134,11 +134,10 @@ var app = http.createServer(function(request, response) {
         request.on('end', function() {
             var post = qs.parse(body);
             file_name = post.file_name;
-            //console.log(file_name);
+            console.log(file_name);
             var file_path = path.join(cur_path, file_name);
 
             fs.readFile(file_path, 'utf8', function(err, data) {
-                //console.log(file_path);
                 file_content = data;
                 response.writeHead(302, { Location: `http://localhost:3000/` });
                 response.end('success');

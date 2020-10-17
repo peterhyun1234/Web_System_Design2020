@@ -25,6 +25,12 @@
             text-align: left;
             padding: 24px;
         }
+        
+        .readFile {
+            border: 0;
+            outline: 0;
+            background-color: #9a8cff;
+        }
         /* The Modal (background) */
         
         .modal {
@@ -101,6 +107,20 @@
             text-decoration: none;
             cursor: pointer;
         }
+        
+        .fileReadingClose {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .fileReadingClose:hover,
+        .fileReadingClose:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -114,9 +134,9 @@
     <div id="myDirModal" class="modal">
         <div class="modal-content">
             <span class="dirClose">&times;</span>
-            <p>폴더 생성</p>
+            <h1>폴더 생성</h1>
             <form action="http://localhost:3000/mkdir" method="POST">
-                <input name="title" type="text">
+                폴더 이름: <input size="17" name="title" type="text" placeholder="Enter title here">
                 <br>
                 <br>
                 <input type="submit" value="폴더 생성하기">
@@ -127,12 +147,13 @@
     <div id="myFileModal" class="modal">
         <div class="modal-content">
             <span class="fileClose">&times;</span>
-            <p>파일 편집</p>
+            <h1>파일 편집</h1>
             <form action="http://localhost:3000/editfile" method="POST">
-                <input name="title" type="text">
+                파일 이름: <input size="17" name="title" type="text" placeholder="Enter title here">
                 <br>
+                <br> 파일 내용:
                 <br>
-                <textarea cols="30" rows="10" name="description" type="text"></textarea>
+                <textarea cols="30" rows="10" name="description" type="text" placeholder="Enter content here"></textarea>
                 <br>
                 <br>
                 <input type="submit" value="편집 저장하기">
@@ -143,15 +164,35 @@
     <div id="renameModal" class="modal">
         <div class="modal-content">
             <span class="renameClose">&times;</span>
-            <p>파일 이름 변경</p>
+            <h1>이름 변경</h1>
             <form action="http://localhost:3000/rename" method="POST">
-                <input name="title" type="text">
+                이름: <input size="20" name="title" type="text">
                 <br>
                 <br>
+                <!-- 기존 파일 및 dir 이름을 저장하기 위한 히든 타입 -->
+                <input type="hidden" name="game_token" value="xm234jq">
                 <input type="submit" value="이름 저장하기">
             </form>
         </div>
     </div>
+
+
+    <div id="fileReadingModal" class="modal">
+        <div class="modal-content">
+            <span class="fileReadingClose">&times;</span>
+            <h1>파일 읽기</h1>
+            <form action="http://localhost:3000/readfile" method="POST">
+                파일 이름: <input size="17" name="file_name" type="text" value="dddddd">
+                <br>
+                <br> 파일 내용:
+                <br>
+                <textarea readonly cols="30" rows="10" name="file_content" type="text"></textarea>
+                <br>
+                <!-- <input type="hidden" name="file_name" value="dddddd"> -->
+            </form>
+        </div>
+    </div>
+
 
     <table>
         <thead>
@@ -278,6 +319,7 @@
         var fileModal = document.getElementById("myFileModal");
         var dirModal = document.getElementById("myDirModal");
         var renameModal = document.getElementById("renameModal");
+        var fileReadingModal = document.getElementById("fileReadingModal");
 
         var fileBtn = document.getElementById("mkfile");
         var dirBtn = document.getElementById("mkdir");
@@ -289,6 +331,17 @@
             renameBtn[i].addEventListener('click', function(event) {
                 console.log(event.target.innerText);
                 renameModal.style.display = "block";
+            });
+        }
+
+        var readFileBtn = document.getElementsByClassName("readFile");
+
+        for (var i = 0; i < readFileBtn.length; i++) {
+            readFileBtn[i].addEventListener('click', function(event) {
+                let fileName = event.target.innerText;
+                fileReadingModal.style.display = "block";
+                //console.log(fileName);
+                //readFile(fileName);
             });
         }
 
@@ -326,6 +379,7 @@
         var fileSpan = document.getElementsByClassName("fileClose")[0];
         var dirSpan = document.getElementsByClassName("dirClose")[0];
         var renameSpan = document.getElementsByClassName("renameClose")[0];
+        var fileReadingSpan = document.getElementsByClassName("fileReadingClose")[0];
 
         // When the user clicks on the button, open the modal
         fileBtn.onclick = function() {
@@ -350,6 +404,9 @@
         renameSpan.onclick = function() {
             renameModal.style.display = "none";
         }
+        fileReadingSpan.onclick = function() {
+            fileReadingModal.style.display = "none";
+        }
 
         // When the user clicks anywhere outside of the modal, fileClose it
         window.onclick = function(event) {
@@ -359,6 +416,8 @@
                 dirModal.style.display = "none";
             } else if (event.target == renameModal) {
                 renameModal.style.display = "none";
+            } else if (event.target == fileReadingModal) {
+                fileReadingModal.style.display = "none";
             }
         }
     </script>
