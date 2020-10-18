@@ -170,6 +170,7 @@
                 <br>
                 <br>
                 <!-- 기존 파일 및 dir 이름을 저장하기 위한 히든 타입 -->
+                <input id="oldFileNameInRename" type="hidden" name="old_title">
                 <input type="submit" value="이름 저장하기">
             </form>
         </div>
@@ -181,11 +182,11 @@
             <span class="fileReadingClose">&times;</span>
             <h1>파일 읽기</h1>
             <form action="http://localhost:3000/readfile" method="POST">
-                파일 이름: <input size="17" name="file_name" type="text" value="dddddd">
+                파일 이름: <input id="fileNameInReadFile" readonly idsize="17" name="file_name" type="text">
                 <br>
                 <br> 파일 내용:
                 <br>
-                <textarea readonly cols="30" rows="10" name="file_content" type="text"></textarea>
+                <textarea id="fileContentInReadFile" readonly cols="30" rows="10" name="file_content" type="text"></textarea>
                 <br>
             </form>
         </div>
@@ -211,22 +212,16 @@
                 <td></td>
             </tr>
             @
-            <!-- <tr>
-                <td>폴더1</td>
-                <td><button id="delete">delete</button></td>
-                <td><button id="rename">rename</button></td>
-                <td>-</td>
-                <td>2020-10-08</td>
-            </tr> -->
         </tbody>
     </table>
 
-    <!-- form 예시 -->
-    <!-- <form action="http://localhost:3000/writefile" method="POST">
-        <input name="title" type="text">
-        <textarea name="description" type="text"></textarea>
-        <input type="submit" value="create file">
-    </form> -->
+
+    <br>
+    <p style="font-size: x-large;">선택된 파일 이름: ?</p>
+    <p style="font-size: large;">파일 내용:</p>
+    <textarea id="fileContentInReadFile" readonly cols="100" rows="10" name="file_content" type="text">$</textarea>
+    <br>
+
 
     <script type="text/javascript">
         let curFileName = "";
@@ -261,16 +256,16 @@
         // HTTP Post를 통해 웹서버에 파일 읽기를 요청한다. 
         // 읽고자 하는 파일 이름 정보를 전달한다.
         function readFile(fileName) {
-            // const form = document.createElement('form');
-            // form.method = "post";
-            // form.action = "http://localhost:3000/readfile";
-            // const hiddenField = document.createElement('input');
-            // hiddenField.type = 'hidden';
-            // hiddenField.name = 'file_name';
-            // hiddenField.value = link.textContent;
-            // form.appendChild(hiddenField);
-            // document.body.appendChild(form);
-            // form.submit();
+            const form = document.createElement('form');
+            form.method = "post";
+            form.action = "http://localhost:3000/readfile";
+            const hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.name = 'file_name';
+            hiddenField.value = fileName;
+            form.appendChild(hiddenField);
+            document.body.appendChild(form);
+            form.submit();
         }
 
         // 디렉토리 삭제
@@ -302,18 +297,18 @@
         }
 
         // 이름 변경 요청
-        function renameTo(link) {
-            const form = document.createElement('form');
-            form.method = "post";
-            form.action = "http://localhost:3000/readfile";
-            const hiddenField = document.createElement('input');
-            hiddenField.type = 'hidden';
-            hiddenField.name = 'file_name';
-            hiddenField.value = link.textContent;
-            form.appendChild(hiddenField);
-            document.body.appendChild(form);
-            form.submit();
-        }
+        // function renameTo(link) {
+        //     const form = document.createElement('form');
+        //     form.method = "post";
+        //     form.action = "http://localhost:3000/readfile";
+        //     const hiddenField = document.createElement('input');
+        //     hiddenField.type = 'hidden';
+        //     hiddenField.name = 'file_name';
+        //     hiddenField.value = link.textContent;
+        //     form.appendChild(hiddenField);
+        //     document.body.appendChild(form);
+        //     form.submit();
+        // }
 
 
 
@@ -324,10 +319,10 @@
         var fileReadingModal = document.getElementById("fileReadingModal");
 
         var fileNameInRename = document.getElementById("fileNameInRename");
+        var oldFileNameInRename = document.getElementById("oldFileNameInRename");
 
-        // 여기부터
-        var fileNameInReadFile = document.getElementById("fileNameInReadFile");
-        var fileContentInReadFile = document.getElementById("fileContentInReadFile");
+        //var fileNameInReadFile = document.getElementById("fileNameInReadFile");
+        //var fileContentInReadFile = document.getElementById("fileContentInReadFile");
 
         var fileBtn = document.getElementById("mkfile");
         var dirBtn = document.getElementById("mkdir");
@@ -342,6 +337,7 @@
 
                 // rename 모달의 value 변경
                 fileNameInRename.value = curFileName;
+                oldFileNameInRename.value = curFileName;
 
                 renameModal.style.display = "block";
             });
@@ -351,10 +347,19 @@
 
         for (var i = 0; i < readFileBtn.length; i++) {
             readFileBtn[i].addEventListener('click', function(event) {
+                // 파일 이름 불러오기
                 let fileName = event.target.innerText;
-                fileReadingModal.style.display = "block";
-                //console.log(fileName);
-                //readFile(fileName);
+
+                // 파일 내용 불러오기
+                let fileContent = "sample contents";
+                readFile(fileName);
+                //console.log(tempfileContent);
+
+
+                // 파일 이름, 내용 dom으로 채우기
+                //fileNameInReadFile.value = fileName;
+                //fileContentInReadFile.value = fileContent;
+                //fileReadingModal.style.display = "block";
             });
         }
 

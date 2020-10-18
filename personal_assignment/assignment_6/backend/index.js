@@ -61,8 +61,8 @@ var app = http.createServer(function(request, response) {
                 // console.log(lsinfo);
 
                 let html = tmpl.toString().replace('@', lsinfo);
-                // html = html.replace('?', file_name);
-                // html = html.replace('$', file_content);
+                html = html.replace('?', file_name);
+                html = html.replace('$', file_content);
                 response.writeHead(200, { 'Content-Type': 'text/html' });
                 response.end(html);
             });
@@ -72,19 +72,20 @@ var app = http.createServer(function(request, response) {
         console.log("rename called");
         request.on('data', function(data) {
             body = body + data;
-            console.log(body);
         });
         request.on('end', function() {
             var post = qs.parse(body);
-            console.log(post);
-            // let oldDirName = cur_path + "/" + dirName;
-            // let newDirName = cur_path + "/" + dirName;
+            // console.log(post);
 
-            // fs.rename(oldDirName, newDirName, (err) => {
-            //     if (err) throw err;
-            //     response.writeHead(302, { Location: `http://localhost:3000/` });
-            //     response.end('success');
-            // });
+            let oldDirName = cur_path + "/" + post.old_title;
+            let newDirName = cur_path + "/" + post.title;
+
+            fs.rename(oldDirName, newDirName, (err) => {
+                if (err) throw err;
+                response.writeHead(302, { Location: `http://localhost:3000/` });
+                response.end('success');
+            });
+
 
         });
     } else if (pathname === '/editfile') {
@@ -113,6 +114,7 @@ var app = http.createServer(function(request, response) {
         // 내 파일의 이름와 파일의 내용을 읽기
         // 새로운 파일을 읽거나 기존 파일을 수정한다.
         var body = '';
+        console.log("rmfile called");
         request.on('data', function(data) {
             body = body + data;
         });
@@ -132,6 +134,8 @@ var app = http.createServer(function(request, response) {
         });
     } else if (pathname === '/rmdir') {
         var body = '';
+        console.log("rmdir called");
+
         request.on('data', function(data) {
             body = body + data;
         });
@@ -150,19 +154,21 @@ var app = http.createServer(function(request, response) {
         });
     } else if (pathname === '/readfile') {
         var body = '';
+        console.log("readfile called");
         request.on('data', function(data) {
             body = body + data;
         });
         request.on('end', function() {
             var post = qs.parse(body);
             file_name = post.file_name;
-            console.log(file_name);
+            //console.log(file_name);
             var file_path = path.join(cur_path, file_name);
 
             fs.readFile(file_path, 'utf8', function(err, data) {
                 file_content = data;
+                //console.log(file_content);
                 response.writeHead(302, { Location: `http://localhost:3000/` });
-                response.end('success');
+                response.end("success");
             });
         });
     } else if (pathname === '/mkdir') {
