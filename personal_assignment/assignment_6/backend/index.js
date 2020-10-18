@@ -67,10 +67,32 @@ var app = http.createServer(function(request, response) {
                 response.end(html);
             });
         });
+    } else if (pathname === '/rename') {
+        var body = '';
+        console.log("rename called");
+        request.on('data', function(data) {
+            body = body + data;
+            console.log(body);
+        });
+        request.on('end', function() {
+            var post = qs.parse(body);
+            console.log(post);
+            // let oldDirName = cur_path + "/" + dirName;
+            // let newDirName = cur_path + "/" + dirName;
+
+            // fs.rename(oldDirName, newDirName, (err) => {
+            //     if (err) throw err;
+            //     response.writeHead(302, { Location: `http://localhost:3000/` });
+            //     response.end('success');
+            // });
+
+        });
     } else if (pathname === '/editfile') {
         // 내 파일의 이름와 파일의 내용을 읽기
         // 새로운 파일을 읽거나 기존 파일을 수정한다.
         var body = '';
+        console.log("editfile called");
+
         request.on('data', function(data) {
             body = body + data;
         });
