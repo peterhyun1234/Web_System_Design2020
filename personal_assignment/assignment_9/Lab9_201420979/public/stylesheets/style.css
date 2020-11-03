@@ -1,8 +1,13 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    text-align: center;
 }
 
-a {
-  color: #00B7FF;
+.title {
+    font-size: xx-large;
+}
+
+.subTitle {
+    font-size: x-large;
 }

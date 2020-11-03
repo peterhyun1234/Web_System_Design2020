@@ -1,5 +1,13 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1(class='title')= title
+  p(class='subTitle') Regster Movie
+  p(class='subTitle') Please enter themovie information to add a review
+  form(action='/form_receiver' method='post')
+      p
+          input(type="text" name="title")
+      p
+          textarea(name='description')
+      p
+          input(type="submit" value="전송")
