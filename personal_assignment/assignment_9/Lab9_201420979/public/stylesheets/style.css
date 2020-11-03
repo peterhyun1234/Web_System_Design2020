@@ -11,3 +11,11 @@ body {
 .subTitle {
     font-size: x-large;
 }
+
+.inputText {
+    margin-bottom: 25px;
+}
+
+.inputRadio {
+    font-size: large;
+}
