@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  img(src='/images/poster_2.jpg')
+  img(class='posterImg' src= poster_location)
   h1= movie_title
   hr(class='line')
   p(class='movieDescription')= movie_cast
@@ -10,6 +10,7 @@ block content
   -for(var idx=0; idx<stars; idx++)
       img(src='/images/star.svg' class='rating-star-img')
   hr(class='line')
+  a(class='goHomeBtn' href="//localhost:3000") Go Home
 
   //- var posterLocation = "/public";
   //- img.image(src='/'+ posterLocation)
