@@ -1,0 +1,6 @@
+extends layout
+
+block content
+    label Name
+    input(id="name", type="text", name="name")
+    input(type="button", onclick="ajaxFindByName()", value="Find Name By AJAX")

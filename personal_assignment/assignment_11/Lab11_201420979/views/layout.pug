@@ -1,0 +1,14 @@
+doctype html
+html
+  head
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    ul
+      li 
+        a(href="/") Add Person
+      li 
+        a(href="/search") Search Person
+    block content
+    block result
+      include list
+    script(src='/javascripts/ajax_sample.js')

@@ -1,0 +1,9 @@
+label Edit Name
+input(id="edit_name" type="text")
+input(id="edit_id", type="hidden")
+input(type="button", onclick="ajaxEdit()", value="Edit By AJAX")
+ul(id="personlist")
+    each person in people
+        li(id="person"+person._id) #{person.name}
+            input(type="button" onclick="ajaxDelete("+ person._id +")" value="Delete By AJAX")
+            input( type="button" onclick="edit("+ person._id +"," + "'" + person.name + "'" +  ")" value="Call Edit")
