@@ -8,10 +8,13 @@ class App extends Component {
     super(props);
     this.handleLoginClick = this.handleLoginClick.bind(this);
     this.handleLogoutClick = this.handleLogoutClick.bind(this);
-    this.state = {isLoggedIn: false, userName: "HyunBin"};
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {isLoggedIn: false, userName: ''};
   }
 
-  handleLoginClick() {
+  handleLoginClick(e) {
+    e.preventDefault();
+    console.log(e);
     this.setState({isLoggedIn: true});
   }
 
@@ -19,14 +22,25 @@ class App extends Component {
     this.setState({isLoggedIn: false});
   }
 
+  handleChange(e) {
+    e.preventDefault();
+    //let userName = e.target.value;
+    this.setState({
+      userName: e.target.value
+    });
+  }
+
   render() {
     const isLoggedIn = this.state.isLoggedIn;
     const userName = this.state.userName;
     let button;
+    let input;
 
     if (isLoggedIn) {
       button = <LogoutButton onClick={this.handleLogoutClick} />;
     } else {
+      input = <input type="text" value = {userName} onChange={this.handleChange} />;
+
       button = <LoginButton onClick={this.handleLoginClick} />;
     }
 
@@ -34,6 +48,7 @@ class App extends Component {
         <div className="App">
           <header className="App-header">
             <Greeting isLoggedIn={isLoggedIn} userName={userName}/>
+            {input}
             {button}
           </header>
         </div>
@@ -59,10 +74,9 @@ function UserGreeting(props) {
 function GuestGreeting(props) {
   return (
       <div>
-        <h1>
-          Who are you?
-        </h1>
-
+          <h1>
+            Who are you?
+          </h1>
       </div>
       );
 }
@@ -93,5 +107,7 @@ function LogoutButton(props) {
     </button>
   );
 }
+
+
 
 export default App;
