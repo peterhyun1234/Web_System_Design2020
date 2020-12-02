@@ -1,0 +1,7 @@
+extends layout
+
+block content
+   form(action="/update/"+person._id, method="POST")
+    label Name
+    input(type="text", name="name" value=person.name)   
+    button(type="submit") Submit

@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  form(action="/searchrequest", method="POST")
+    label Name
+    input(type="text", name="name")
+    button(type="submit") Submit
+  form(action="/searchrequest", method="POST")
+    label ID
+    input(type="text", name="_id")
+    button(type="submit") Submit

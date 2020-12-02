@@ -1,0 +1,8 @@
+extends layout
+
+block content
+    ul
+    each person in people
+        li 
+            a(href='/edit/'+person._id) #{person.name}
+            a(href='/delete/'+person._id) 삭제
